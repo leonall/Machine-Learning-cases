@@ -1,14 +1,14 @@
 ## 项目说明
 
-此项目用来维护整理机器学习的案例，包括传统的机器学习方法、深度学习、CNN、RNN、强化学习等内容
+此项目用来维护整理机器学习的案例，包括传统的机器学习方法、深度学习、CNN、RNN、强化学习等内容。
 
 ## 第三方依赖
 
 * Python 3.5
 * Jupyter Notebook
 * Numpy
-* matplotlib
-* kears
+* Matplotlib
+* keras
 * TensorFlow
 * Pytorch
 
