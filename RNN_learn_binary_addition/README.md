@@ -6,9 +6,9 @@
 
 <img width="400" height="400" src="images/basic_recurrence_singleton.png"/>
 
-输入层到隐藏层权重系数：SYNAPSE_0，常用的写法是 **U**
-隐藏层到隐藏层权重系数：SYNAPSE_h，常用的写法是 **W**
-隐藏层到输出层权重系数：SYNAPSE_1，常用的写法是 **V**
+* 输入层到隐藏层权重系数：SYNAPSE_0，常用的写法是 **U**
+* 隐藏层到隐藏层权重系数：SYNAPSE_h，常用的写法是 **W**
+* 隐藏层到输出层权重系数：SYNAPSE_1，常用的写法是 **V**
 
 **正向传播**
 
