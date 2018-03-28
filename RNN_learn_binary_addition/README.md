@@ -34,4 +34,4 @@
 
 在此基础是，参考了 https://blog.csdn.net/weiwei9363/article/details/78902455，采用 TensorFlow 来建立 RNN 模型，学习二进制加法。（不吹不黑，Tf 真难用...）
 
-[RNN 学习二进制加法（TensorFlow 实现）](RNN_learn_binary_addition_in_tensorflow.py)
+[RNN 学习二进制加法（TensorFlow 1.4）](RNN_learn_binary_addition_in_tensorflow.py)
