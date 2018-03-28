@@ -1,4 +1,4 @@
-这是参照[人人都能用Python写出LSTM-RNN的代码！[你的神经网络学习最佳起步]](http://blog.csdn.net/zzukun/article/details/49968129) 的 RNN 学习案例。
+这是参照[人人都能用Python写出LSTM-RNN的代码！[你的神经网络学习最佳起步]](http://blog.csdn.net/zzukun/article/details/49968129) 的 RNN 学习案例。[英文原版](http://iamtrask.github.io/2015/11/15/anyone-can-code-lstm/)
 
 ## 一层隐藏层的 RNN 网络结构
 
@@ -32,3 +32,4 @@
 
 [RNN 学习二进制加法玩具代码](RNN_learn_binary_addition.py)
 
+[RNN 学习二进制加法（TensorFlow 实现）](RNN_learn_binary_addition_in_tensorflow.py)

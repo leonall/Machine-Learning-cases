@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-__version__ = '0.1.20180314'
+__version__ = '0.2.20180328'
 
 
 import copy
@@ -54,9 +54,9 @@ class RNN(object):
         # initialize neural network weights
         if seed:
             np.random.seed(seed)
-        self.synapse_0 = 2 * np.random.random((input_dim, hidden_dim)) - 1
-        self.synapse_1 = 2 * np.random.random((hidden_dim, output_dim)) - 1
-        self.synapse_h = 2 * np.random.random((hidden_dim, hidden_dim)) - 1
+        self.synapse_0 = 2 * np.random.random((input_dim, hidden_dim)) - 1   # shpae = (2, 16)
+        self.synapse_1 = 2 * np.random.random((hidden_dim, output_dim)) - 1  # shpae = (16, 1)
+        self.synapse_h = 2 * np.random.random((hidden_dim, hidden_dim)) - 1  # shpae = (16, 16)
 
         self.learning_rate = learning_rate
 
@@ -71,11 +71,10 @@ class RNN(object):
         self.layer_2_deltas = []
         self.layer_1_values = [np.zeros(hidden_dim)]
         for i in range(binary_dim):
-            X = np.array([[a[- i - 1], b[- i - 1]]])
-            layer_1 = sigmoid(np.dot(X, self.synapse_0) + np.dot(self.layer_1_values[-1], self.synapse_h))
-            layer_2 = sigmoid(np.dot(layer_1, self.synapse_1))
-            # decode estimate so we can print it out
-            output[- i - 1] = np.round(layer_2[0][0])
+            X = np.array([[a[-i - 1], b[-i - 1]]])  # shape = (1, 2)
+            layer_1 = sigmoid(np.dot(X, self.synapse_0) + np.dot(self.layer_1_values[-1], self.synapse_h))  # memory state
+            layer_2 = sigmoid(np.dot(layer_1, self.synapse_1))  # output, shape = (1, 1)
+            output[-i - 1] = np.round(layer_2[0][0])
             self.layer_1_values.append(copy.deepcopy(layer_1))
             if training:
                 y = np.array([[c[- i - 1]]]).T
