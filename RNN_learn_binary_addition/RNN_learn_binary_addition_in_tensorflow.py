@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-__version__ = '0.1.20180328'
+__version__ = '0.2.20180416'
 
 import numpy as np
+import os
 import sys
 import tensorflow as tf
 from tensorflow.contrib import rnn as rnn_cell
@@ -19,12 +20,14 @@ class HParam(object):
     num_layers = 2
     state_size = 16
     learning_rate = 0.01
+    log_dir = './logs'
 
 class RNN(object):
     def __init__(self, sess, args, seed=None):
         # initialize neural network weights
         if seed:
             tf.random.seed(seed)
+        self.log_dir = args.log_dir
         self.batch_size = args.batch_size
         self.seq_length = args.seq_length
         self.num_layers = args.num_layers
@@ -37,7 +40,6 @@ class RNN(object):
             self.y = tf.placeholder(tf.float32, [self.batch_size, self.seq_length])
 
         with tf.name_scope('model'):
-            self.cell = rnn_cell.BasicRNNCell(num_units=self.state_size)
             def _get_cell(state_size):
                 return rnn_cell.BasicRNNCell(num_units=state_size)
             self.cell = rnn_cell.MultiRNNCell([_get_cell(self.state_size) for _ in range(self.num_layers)])
@@ -65,19 +67,27 @@ class RNN(object):
         with tf.name_scope('optimizer'):
             self.optimizer = tf.train.AdamOptimizer(self.learning_rate).minimize(self.cost)
 
+        # Summary
+        self.merged_op = tf.summary.merge_all()
+
     def predict(self, x):
         return self.sess.run(self.y_pred, feed_dict={self.X: x})
 
     def fit(self, X_train, y_train, n_epochs=10, display_epoch=10):
 
         self.sess.run(tf.global_variables_initializer())
+        saver = tf.train.Saver(max_to_keep=100)
+        writer = tf.summary.FileWriter(self.log_dir)
+        writer.add_graph(self.sess.graph)
         for i in range(1, n_epochs+1):
             X_train, y_train = shuffle_data(X_train, y_train)
             for j in range(0, X_train.shape[0], self.batch_size)[:-1]:
                 x = X_train[j: j + self.batch_size]
                 y = y_train[j: j + self.batch_size]
-                loss, acc, _ = self.sess.run([self.cost, self.accuracy, self.optimizer],
-                                             feed_dict={self.X: x, self.y: y})
+                loss, acc, _, summary = self.sess.run([self.cost, self.accuracy, self.optimizer, self.merged_op],
+                                                       feed_dict={self.X: x, self.y: y})
+            writer.add_summary(summary, global_step=i)
+            saver.save(self.sess, os.path.join(self.log_dir, "checkpoints_{}.ckpt".format(i)))
             if i % display_epoch == 0:
                 print('eproch {:<3}, training score: {}'.format(i, self.get_accuracy(X_train, y_train)))
         print('-------------------------------')
@@ -91,6 +101,7 @@ class RNN(object):
             acc = self.sess.run(self.accuracy, feed_dict={self.X: x, self.y: y})
             Acc.append(acc)
         return sess.run(tf.reduce_mean(Acc))
+
 
 if __name__ == '__main__':
 
@@ -114,7 +125,6 @@ if __name__ == '__main__':
         print('\nTest accuray: {:.4g} %'.format(clf.get_accuracy(X_test, y_test) * 100))
         print('-------------------------------')
 
-        y_pred = clf.predict(X_test[0: clf.batch_size])
         y_pred = sess.run(clf.y_pred, feed_dict={clf.X: X_test[0: clf.batch_size]})
         for i in range(5):
             print(X_test[i].shape)
