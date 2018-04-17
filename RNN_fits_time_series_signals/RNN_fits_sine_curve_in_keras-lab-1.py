@@ -14,7 +14,6 @@ import tensorflow as tf
 sys.path.append('../utils')
 from data_manipulation import train_test_split, shuffle_data
 
-
 __version__ = '0.2.20180417'
 
 
@@ -22,22 +21,24 @@ def gen_data(seq_length, n_samples, amp=1):
     X = []
     y = []
     for i in range(n_samples):
-        X.append((amp * np.sin(np.linspace(i, seq_length+i, seq_length) / seq_length)).reshape(-1, 1))
-        y.append([amp * np.sin((seq_length + i + 1) / seq_length)])
+        np.random.seed(i)
+        rand_phase = np.random.randn()
+        X.append((amp * np.sin(np.linspace(0, 1, seq_length) + rand_phase)).reshape(-1, 1))
+        y.append([amp * np.sin(seq_length / (seq_length - 1) + rand_phase)])
     return np.array(X), np.array(y)
 
 config = tf.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.3
 # config.gpu_options.allow_growth = True  # 自适应增加
 set_session(tf.Session(config=config))
-
+X, y = gen_data(seq_length=seq_length, n_samples=n_samples)  # X [n_samples, seq_length, data_dim]
+                                                             # y [n_samples, 1, data_dim]
 seq_length = 10
 timesteps = seq_length
 data_dim = 1
 n_samples = 5000
 seed=0
-X, y = gen_data(seq_length=seq_length, n_samples=n_samples)  # X [n_samples, seq_length, data_dim]
-                                                             # y [n_samples, 1, data_dim]
+X, y = gen_data(seq_length=seq_length, n_samples=n_samples)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=True, seed=seed)
 
@@ -50,7 +51,7 @@ model.add(Activation('linear'))
 model.summary()
 
 model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(X_train, y_train, epochs=200, batch_size=1024, verbose=0)
+model.fit(X_train, y_train, epochs=100, batch_size=512, verbose=0)
 
 y_pred = model.predict(X_test, batch_size=100)
 
