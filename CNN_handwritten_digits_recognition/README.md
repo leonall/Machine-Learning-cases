@@ -25,18 +25,6 @@
 
 采用 Kears 搭建 CNN 模型，在训练时，对 MNIST 数据集的数据进行了一定的随机变换（平移、旋转、噪音等），增加了数据的丰富性，提高训练模型的鲁棒性。
 
-**训练**
-
-```python
-python3 train_mnist_keras.py
-```
-
-**预测手写数字**
-
-```python
-python3 predict_mnist_model.py --model 训练保存的模型
-```
-
 经过 10~50 轮训练，对这 30 个手写数字识别的错误率为 4/30 ~ 5/30。增加训练轮数，对该结果影响不大；不同训练轮数下，预测错误的地方不同，数字 6 是错误率最高的数字。
 
 ### [TensorFlow 模型](tensorflow)
