@@ -108,7 +108,7 @@ legend = ax[0].legend(loc='best', shadow=True)
 ax[1].plot(history.history['acc'], color='b', label="Training accuracy")
 ax[1].plot(history.history['val_acc'], color='r', label="Validation accuracy")
 legend = ax[1].legend(loc='best', shadow=True)
-plt.savefig('history_figure.png')
+plt.savefig('history_figure_{}.png'.format(epochs))
 plt.close()
 
 
@@ -151,12 +151,12 @@ Y_true_val = np.argmax(Y_val, axis=1)
 # compute the confusion matrix
 confusion_mtx = confusion_matrix(Y_true_val, Y_pred_val)
 # plot the confusion matrix
-plot_confusion_matrix(confusion_mtx, classes=range(10), figure_name='val_set_confusion_matrix.png')
+plot_confusion_matrix(confusion_mtx, classes=range(10), figure_name='val_set_confusion_matrix_{}.png'.format(epochs))
 
 
 Y_pred_test = model.predict(X_test)
 Y_pred_test = np.argmax(Y_pred_test, axis=1)
 Y_true_test = np.argmax(Y_test, axis=1)
 confusion_mtx = confusion_matrix(Y_true_test, Y_pred_test)
-plot_confusion_matrix(confusion_mtx, classes=range(10), figure_name='test_set_confusion_matrix.png')
+plot_confusion_matrix(confusion_mtx, classes=range(10), figure_name='test_set_confusion_matrix_{}.png'.format(epochs))
 print('test acc: {}'.format(accuracy_score(Y_true_test, Y_pred_test)))
