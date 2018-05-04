@@ -37,153 +37,17 @@ python3 train_mnist_keras.py
 python3 predict_mnist_model.py --model 训练保存的模型
 ```
 
-**10 轮训练**
+经过 10~50 轮训练，对这 30 个手写数字识别的错误率为 4/30 ~ 5/30。增加训练轮数，对该结果影响不大；不同训练轮数下，预测错误的地方不同，数字 6 是错误率最高的数字。
 
-![](keras/history_figure.png)
+### [TensorFlow 模型](tensorflow)
 
-MNIST 测试集 test acc: 0.9957
+TensorFlow 搭建的模型中，没有图形变化的环节，即没有数据集增强环节，预测结果要差一些。错误率在 9/30 ~ 14~30。
 
-```
-0.0.png 0
-0.1.png 0
-0.2.png 9
-1.0.png 1
-1.1.png 1
-1.2.png 1
-2.0.png 2
-2.1.png 2
-2.2.png 2
-3.0.png 3
-3.1.png 3
-3.2.png 3
-4.0.png 4
-4.1.png 4
-4.2.png 4
-5.0.png 5
-5.1.png 5
-5.2.png 5
-6.0.png 5
-6.1.png 1
-6.2.png 6
-7.0.png 7
-7.1.png 7
-7.2.png 7
-8.0.png 8
-8.1.png 8
-8.2.png 1
-9.0.png 9
-9.1.png 9
-9.2.png 9
-```
+## 讨论
 
+整体来看，通过 MNIST 数据训练的 CNN 模型，对自己手写的 30 个数字预测正确率(最高 86.7%， 最低 53.3%)明显低于对 MNIST 数据的精度（MNIST 数据集，随便训练都有 90% 以上的正确率，而本次实验，正确率均超过 97%）。原因可能有：
 
-**20 轮训练**
-
-MNIST 测试集 test acc: 0.9922
-
-```
-0.1.png 0
-0.2.png 0
-0.png 0
-1.1.png 1
-1.2.png 1
-1.png 1
-2.1.png 1
-2.2.png 1
-2.png 2
-3.1.png 3
-3.2.png 1
-3.png 3
-4.1.png 4
-4.2.png 4
-4.png 4
-5.1.png 5
-5.2.png 5
-5.png 5
-6.1.png 1
-6.2.png 6
-6.png 0
-7.1.png 7
-7.2.png 7
-7.png 7
-8.1.png 8
-8.2.png 8
-8.png 8
-9.1.png 9
-9.2.png 9
-9.png 9
-```
-
-**30 轮训练**
-
-MNIST 测试集 test acc: 0.9952
-
-```
-0.0.png 0
-0.1.png 0
-0.2.png 9
-1.0.png 1
-1.1.png 1
-1.2.png 1
-2.0.png 2
-2.1.png 1
-2.2.png 2
-3.0.png 3
-3.1.png 3
-3.2.png 3
-4.0.png 4
-4.1.png 4
-4.2.png 4
-5.0.png 5
-5.1.png 5
-5.2.png 5
-6.0.png 1
-6.1.png 5
-6.2.png 6
-7.0.png 7
-7.1.png 7
-7.2.png 7
-8.0.png 8
-8.1.png 8
-8.2.png 2
-9.0.png 9
-9.1.png 9
-9.2.png 9
-```
-
-**50 轮训练**
-
-MNIST 测试集 test acc: 0.9959
-
-```
-0.0.png 0
-0.1.png 0
-0.2.png 9
-1.0.png 1
-1.1.png 1
-1.2.png 1
-2.0.png 2
-2.1.png 2
-2.2.png 2
-3.0.png 3
-3.1.png 3
-3.2.png 9
-4.0.png 4
-4.1.png 4
-4.2.png 4
-5.0.png 5
-5.1.png 5
-5.2.png 5
-6.0.png 0
-6.1.png 1
-6.2.png 6
-7.0.png 7
-7.1.png 7
-7.2.png 7
-8.0.png 8
-8.1.png 8
-8.2.png 0
-9.0.png 9
-9.1.png 9
-9.2.png 9
-```
+* 数据集的差异
+    * 这 30 个数字是通过鼠标在绘图板上绘制而成，与实际手写数字存在差异
+    * 这 30 个数字的图片与 MNIST 数据的生成方式有的差异
+* 学习到的模型的泛化能力不够
