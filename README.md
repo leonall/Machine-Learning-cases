@@ -19,8 +19,6 @@
 
 ## 学习案例
 
-### RNN
-
 #### [RNN 学习二进制加法](RNN_learn_binary_addition)
 
 - [X] [手撸 RNN 版本](RNN_learn_binary_addition/RNN_learn_binary_addition.py)
@@ -31,8 +29,8 @@
 - [X] [Keras-lab-1](RNN_fits_time_series_signals/RNN_fits_sine_curve_in_keras-lab-1.py)
 - [X] [Keras-lab-2](RNN_fits_time_series_signals/RNN_fits_sine_curve_in_keras-lab-2.py)
 
-### CNN
-
 #### [CNN 识别自己手写的数字](CNN_handwritten_digits_recognition)
 
 #### [破解验证码](captcha_recognition)
+
+#### [RNN 写诗](gen_poetry)
